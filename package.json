@@ -1,0 +1,22 @@
+{
+  "name": "twitter_app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.137.0",
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "elasticsearch": "^13.3.1",
+    "express": "^4.16.1",
+    "http-aws-es": "^3.1.0",
+    "mongoose": "^4.12.1"
+  },
+  "devDependencies": {},
+  "description": ""
+}
