@@ -33,8 +33,8 @@ app.get("/keyword", function(req, res){
             }
         },
         size: 5000
-    }).then(function(elasticsearchRes){
-        var hits = elasticsearchRes.hits.hits;
+    }).then(function(esRes){
+        var hits = esRes.hits.hits;
         res.contentType('application/json');
         res.send(JSON.stringify(hits));
     },function (err) {
@@ -45,6 +45,7 @@ app.get("/keyword", function(req, res){
 
 // realize elastic search 
 app.get("/geospatial", function(req, res){
+    // console.log("abcdef")
     es.search({
         index: 'twitters',
         type: 'tweet',
@@ -77,10 +78,6 @@ app.get("/geospatial", function(req, res){
     });
 });
 
-app.get("/", function(req, res){
-    res.render("home");
-});
-
 app.get("/introduction", function(req, res){
     res.render("introduction");
 })
@@ -88,5 +85,9 @@ app.get("/introduction", function(req, res){
 app.get("/elastic", function(req, res){
     res.render("elasticsearch");
 })
+
+app.get("/", function(req, res){
+    res.render("home");
+});
 
 app.listen(8081, '127.0.0.1');

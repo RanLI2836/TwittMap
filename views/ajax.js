@@ -1,6 +1,8 @@
 var map;
 var shownMarker = new Array();
+var showCircle = null;
 var current = null;
+var delay = 100;
 
 $('#hotword-Selector').change(function() {
     selected($('#hotword-Selector').val());
@@ -18,30 +20,33 @@ function selected(word) {
 		success: function(data) {
 			console.log("get data from server");
 			data.forEach(function(element, i){
-				var location = {lat: element._source.geo.lat, lng: element._source.geo.lon};
-				var myMarker = new google.maps.Marker({
-					map: map,
-					position: location,
-					animation: google.maps.Animation.BOUNCE
-				});
-				shownMarker.push(myMarker);
+				window.setTimeout(function(){
+          var location = {lat: element._source.geo.lat, lng: element._source.geo.lon};
+          var myMarker = new google.maps.Marker({
+            map: map,
+            position: location,
+            animation: google.maps.Animation.BOUNCE
+          });
+          shownMarker.push(myMarker);
+          var myLatLng = new google.maps.LatLng({lat: element._source.geo.lat, lng: element._source.geo.lon}); 
+          var inforwindow = new google.maps.InfoWindow({
+            content: "<b>" + element._source.screen_name + "</b></br>" + element._source.created_time + "</br>" + element._source.content,
+            position:  myLatLng
+          });
+          google.maps.event.addListener(myMarker,'click', function() {
+            if (current != null) {
+              current.close();
+            }
+            inforwindow.open(map, myMarker);
+            current = inforwindow;
+        }, i*delay);
 
-				var myLatLng = new google.maps.LatLng({lat: element._source.geo.lat, lng: element._source.geo.lon}); 
-				var inforwindow = new google.maps.InfoWindow({
-					content: "<b>" + element._source.screen_name + "</b></br>" + element._source.created_time + "</br>" + element._source.content,
-					position:  myLatLng
-				});
-				google.maps.event.addListener(myMarker,'click', function() {
-					if (current != null) {
-						current.close();
-					}
-					inforwindow.open(map, myMarker);
-					current = inforwindow;
  				});
 			});
 		}
 	});
 }
+
 
 function initMap() {
 	var uluru = {lat: -25.363, lng: 131.044};
@@ -369,6 +374,14 @@ function initMap() {
 ]
 
 	});
+
+  new google.maps.event.addListener(map, "click", function(event){
+    if (document.getElementById("diffFeature").checked) {
+      // console.log(event.latLng.lat())
+      esearch(event.latLng.lat(), event.latLng.lng());
+    }
+  });
+
 }
 
 function setAllMarkers(map) {
@@ -381,3 +394,63 @@ function clearAllMarkers() {
 	setAllMarkers(null);
 	shownMarker = [];
 }
+
+// elastic search according to the location that the user click
+function esearch(lat, lng) {
+  if (showCircle != null) {
+    // console.log("aaaaaaaaaaa")
+    showCircle.setMap(null);
+  }
+  clearAllMarkers(null);
+  // console.log("bbbbb")
+  showCircle = new google.maps.Circle({
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    map: map,
+    center: {lat: lat, lng: lng},
+    radius: 1000000
+  })
+
+  $.ajax({
+    type: 'GET',
+    url: 'geospatial',
+    data: {
+      'lat': lat,
+      'lng': lng
+    },
+    dataType: 'json',
+    success: function(data) {
+      console.log("click lat", lat);
+      console.log("elastic search data", data);
+      data.forEach(function(element, i) {
+        window.setTimeout(function() {
+          var location = {lat: element._source.geo.lat, lng: element._source.geo.lon};
+          var myMarker = new google.maps.Marker({
+            map: map,
+            position: location,
+            animation: google.maps.Animation.DROP
+          });
+          shownMarker.push(myMarker);
+
+          var myLatLng = new google.maps.LatLng({lat: element._source.geo.lat, lng: element._source.geo.lon}); 
+          var inforwindow = new google.maps.InfoWindow({
+            content: "<b>" + element._source.screen_name + "</b></br>" + element._source.created_time + "</br>" + element._source.content,
+            position:  myLatLng
+          });
+          google.maps.event.addListener(myMarker,'click', function() {
+            if (current != null) {
+              current.close();
+            }
+            inforwindow.open(map, myMarker);
+            current = inforwindow;
+          });
+        }, i*delay)
+      })
+    }
+  });
+}
+
+

@@ -54,9 +54,11 @@
         -webkit-user-select: none;
         user-select: none;
       }
+      ol.abc {list-style-type: upper-roman;}
 
       #map {
-        height: 500px;
+        height: 620px;
+        width: 100%;
       }
     </style>
   </head>
@@ -67,38 +69,35 @@
         <h1>Twitt<span>Map</span></h1>
         <select id="hotword-Selector">
             <option value="" disabled selected>Choose...</option>
+            <option value="Halloween">Halloween</option>
+            <option value="Trump">Trump</option>
+            <option value="megyn kelly">megyn kelly</option>
             <option value="Catalonia">Catalonia</option>
             <option value="China">China</option>
-            <option value="Gun">Gun</option>
-            <option value="Halloween">Halloween</option>
-            <option value="India">India</option>
-            <option value="London">London</option>
+            <option value="SpiritDay">SpiritDay</option>
+            <option value="MondayMorning">MondayMorning</option>
             <option value="NYC">NYC</option>
-            <option value="Python">Python</option>
-            <option value="Trump">Trump</option>
-            <option value="Vegas">Vegas</option>
+            <option value="Super Bowl">Super Bowl</option>
+            <option value="Jeremy Lin">Jeremy Lin</option>
         </select>
         <!-- <input id="button1" type="button" value="Filter!"/> -->
       </div>
     </header>
-
-
 
     <div class="container-fluid">
       <div class="row">
         <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
           <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/introduction">Introduction <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Reports</a>
+              <a class="nav-link active" href="/">Map</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Analytics</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Export</a>
+              <a class="nav-link" href="/elastic">
+                <input type="checkbox" style="display: none" id="diffFeature" />elastic search
+              </a>
             </li>
           </ul>
         </nav>
