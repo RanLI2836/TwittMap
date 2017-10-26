@@ -1,5 +1,7 @@
 var map;
+var heatmap;
 var shownMarker = new Array();
+var heatpoints = new Array();
 var showCircle = null;
 var current = null;
 var delay = 30;
@@ -400,7 +402,18 @@ function esearch(lat, lng) {
   if (showCircle != null) {
     // console.log("aaaaaaaaaaa")
     showCircle.setMap(null);
+    console.log(showCircle);
   }
+  // console.log("heatpoints", heatpoints);
+  heatpoints = [];
+  console.log("clear", heatpoints);
+  if (heatmap) {
+    // console.log("mmmmmmmm")
+    heatmap.setMap(null);
+    heatmap.setData([]);
+    console.log("heatmap", heatmap);
+  }
+
   clearAllMarkers(null);
   // console.log("bbbbb")
   showCircle = new google.maps.Circle({
@@ -436,6 +449,7 @@ function esearch(lat, lng) {
           shownMarker.push(myMarker);
 
           var myLatLng = new google.maps.LatLng({lat: element._source.geo.lat, lng: element._source.geo.lon}); 
+          heatpoints.push(myLatLng);
           var inforwindow = new google.maps.InfoWindow({
             content: "<b>" + element._source.screen_name + "</b></br>" + element._source.created_time + "</br>" + element._source.content,
             position:  myLatLng
@@ -447,7 +461,25 @@ function esearch(lat, lng) {
             inforwindow.open(map, myMarker);
             current = inforwindow;
           });
-        }, i*delay)
+        }, i*delay);
+
+        window.setTimeout(function() {
+          if (heatmap) {
+            heatmap.setMap(null);
+          }
+          // console.log("heatpoints", heatpoints);
+          heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatpoints,
+            dissipating: false,
+            map: map
+          });
+          heatmap.setOptions({
+            opacity: 0.5,
+            radius: 10,
+            maxIntensity: 10,
+          });
+          heatmap.setMap(map);
+        }, data.length * delay);
       })
     }
   });
