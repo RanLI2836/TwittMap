@@ -2,7 +2,7 @@ var map;
 var shownMarker = new Array();
 var showCircle = null;
 var current = null;
-var delay = 100;
+var delay = 30;
 
 $('#hotword-Selector').change(function() {
     selected($('#hotword-Selector').val());
