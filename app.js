@@ -1,6 +1,7 @@
 var express = require("express"),
     app = express(),
     bodyParser = require("body-parser");
+    ejs = require('ejs');
 
 // Create a client instance
 let AWS = require('aws-sdk');
@@ -15,7 +16,9 @@ let options = {
 let es = require('elasticsearch').Client(options);
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
+app.set('view engine', 'html');
+app.engine('html', ejs.renderFile);
 app.use(express.static(__dirname + '/views'));
 
 
@@ -34,6 +37,7 @@ app.get("/keyword", function(req, res){
         },
         size: 5000
     }).then(function(esRes){
+        console.log('Number of tweets retrieved (' + searchWord + '):' + esRes.hits.total);
         var hits = esRes.hits.hits;
         res.contentType('application/json');
         res.send(JSON.stringify(hits));
@@ -69,7 +73,7 @@ app.get("/geospatial", function(req, res){
         },
         size: 1000
     }).then(function(esRes){
-        console.log('Number of tweets retrieved: ' + esRes.hits.total);
+        console.log('Number of tweets retrieved (geo): ' + esRes.hits.total);
         var hits = esRes.hits.hits;
         res.contentType('application/json');
         res.send(JSON.stringify(hits));
