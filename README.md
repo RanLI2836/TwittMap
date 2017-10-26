@@ -3,8 +3,8 @@
 We collected 11.9 MB data using Twitter API and stored the tweets using AWS ElasticSearch on the back-end. The web application is deployed on Elastic BeanStalk.
 
 ### Installation
-npm install
-npm start
+ - npm install
+ - npm start
 
 ### Features We Have
 
