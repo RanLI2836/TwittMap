@@ -10,11 +10,11 @@ from httplib import IncompleteRead
 import datetime
 
 # twitter
-consumer_key = 'ncQVdG1TI5bruK46oLwCwcZsx'
-consumer_secret = 'sB1ftfcXXGbwlnH8YsVvcJXESGeCcNClh28k3fa9oK0YaSX7Sl'
+consumer_key = ''
+consumer_secret = ''
 
-access_token_key = '920832151498776577-12SgnzDth47pxCNFV24v1uYFyWZzHyz'
-access_token_secret = 'JCVrDMXr4tpyg9o3R1JwuwYNr1GKFc6HHdmddpfJ3yI2a'
+access_token_key = ''
+access_token_secret = ''
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token_key, access_token_secret)
@@ -122,13 +122,13 @@ class listener(StreamListener):
 
     def es_insert(self,id_str,user_name,screen_name,created_at,content,lat,lon, city, country):
         # AWS keys
-        AWS_ACCESS_KEY_ID = 'AKIAIBUZAVSA4PYNR6EA'
-        AWS_SECRET_KEY = 'Q8e6gouOfr2CPTa2+MVlzeisgeR8DkZ6SPoMc1fj'
+        AWS_ACCESS_KEY_ID = ''
+        AWS_SECRET_KEY = ''
         region = 'us-east-2' # For example, us-east-1
         service = 'es'
         awsauth = AWS4Auth(AWS_ACCESS_KEY_ID, AWS_SECRET_KEY, region, service)
 
-        host = 'search-cc-twitter-py2dgskljuk7wo3ve5gmux3q4q.us-east-2.es.amazonaws.com' # For example, my-test-domain.us-east-1.es.amazonaws.com
+        host = '' # For example, my-test-domain.us-east-1.es.amazonaws.com
 
         es = Elasticsearch(
             hosts = host,
@@ -179,14 +179,14 @@ if __name__ == "__main__":
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token_key, access_token_secret)
     # AWS keys
-    AWS_ACCESS_KEY_ID = 'AKIAIBUZAVSA4PYNR6EA'
-    AWS_SECRET_KEY = 'Q8e6gouOfr2CPTa2+MVlzeisgeR8DkZ6SPoMc1fj'
+    AWS_ACCESS_KEY_ID = ''
+    AWS_SECRET_KEY = ''
     region = 'us-east-2' # For example, us-east-1
     service = 'es'
 
     awsauth = AWS4Auth(AWS_ACCESS_KEY_ID, AWS_SECRET_KEY, region, service)
 
-    host = 'search-cc-twitter-py2dgskljuk7wo3ve5gmux3q4q.us-east-2.es.amazonaws.com' # For example, my-test-domain.us-east-1.es.amazonaws.com
+    host = '' # For example, my-test-domain.us-east-1.es.amazonaws.com
 
     es = Elasticsearch(
         hosts = host,
